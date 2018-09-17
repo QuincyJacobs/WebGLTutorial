@@ -23,11 +23,11 @@ There is no contribution strategy as I am the sole Author at the moment.
 
 * **Quincy Jacobs** - *Everything for now* - [QuincyJacobs](https://github.com/QuincyJacobs)
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/QuincyJacobs/WebGLTutorial/graphs/contributors) who participated in this project.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
 
 ## Acknowledgments
 
