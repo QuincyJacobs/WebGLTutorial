@@ -24,7 +24,7 @@ function main() {
 	* --------------------------------------------------------------------------------------------
 	*/
 
-	// create 2 shader programs. This is done in 'GLSL', OpenGL Shading Language.
+	// create 2 shaders and a shader program. This is done in 'GLSL', OpenGL Shading Language.
 	// for simplicity we will just feed them as strings into WebGL
 
 	// the vertex shader source code
@@ -129,7 +129,7 @@ function main() {
 	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
 	
 	// get the point in our vertex shader where we can insert our positions
-	var coordinatePosition = gl.getAttribLocation(shaderProgram, "coordinates");
+	var position_location = gl.getAttribLocation(shaderProgram, "coordinates");
 	
 	// tell the vertex shader how to interpret the vertex data.
 	// 1st arg: pointer to the position where the vertex data can be inserted
@@ -138,7 +138,7 @@ function main() {
 	// 4th arg: normalization, this has no effect on floats, but will cast other types into their usual values
 	// 5th arg: specifies the offset (in bytes) between vertex attributes.
 	// 6th arg: offset, specifies at which position (in bytes) in the vertex array the first element starts.
-	gl.vertexAttribPointer(coordinatePosition, 3, gl.FLOAT, false, 0, 0);
+	gl.vertexAttribPointer(position_location, 3, gl.FLOAT, false, 0, 0);
 	
 	// unbind the buffer to prevent unwanted changes later
 	gl.bindBuffer(gl.ARRAY_BUFFER, null);
@@ -153,8 +153,8 @@ function main() {
 	var color_buffer = gl.createBuffer();
 	gl.bindBuffer(gl.ARRAY_BUFFER, color_buffer);
 	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
-	var colorsPosition = gl.getAttribLocation(shaderProgram, "color");
-	gl.vertexAttribPointer(colorsPosition, 3, gl.FLOAT, false, 0, 0); 
+	var color_location = gl.getAttribLocation(shaderProgram, "color");
+	gl.vertexAttribPointer(color_location, 3, gl.FLOAT, false, 0, 0); 
 	gl.bindBuffer(gl.ARRAY_BUFFER, null);
 
 	
@@ -170,8 +170,8 @@ function main() {
 	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, index_buffer);
 
 	// tell WebGL to enable the vertex attribute we just specified.
-	gl.enableVertexAttribArray(coordinatePosition);
-	gl.enableVertexAttribArray(colorsPosition);
+	gl.enableVertexAttribArray(position_location);
+	gl.enableVertexAttribArray(color_location);
 
 
 	/*
@@ -199,4 +199,38 @@ function main() {
 	// 4th arg: offset, specifies at which position (in bytes) in the element array the first element starts. As we have no
 	//			additional information in our element array buffer, this will be 0.
 	gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
+	
+	
+	/*
+	* --------------------------------------------------------------------------------------------
+	* Create a frame loop
+	* --------------------------------------------------------------------------------------------
+	*/	
+	
+	// track the time of the last draw call
+	var previous = 0
+	
+	// see if a new frame can be drawn
+	requestAnimationFrame(drawScene);
+	
+	function drawScene(now) {
+		// convert to seconds
+		now *= 0.001;
+		// subtract the previous time from the current time
+		var deltaTime = now - previous;
+		// remember the current time for the next frame.
+		previous = now;
+
+		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+		
+		// assignment 4 comes in here.
+		
+		
+		
+
+		gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
+
+		// call drawScene again for the next frame
+		requestAnimationFrame(drawScene);
+	}
 }
