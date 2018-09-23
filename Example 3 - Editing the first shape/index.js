@@ -30,14 +30,14 @@ function main() {
 	// the vertex shader source code
 	const vertexShaderSource = `#version 300 es
 	
-		in vec3 positions;
-		in vec3 v_colors;
+		in vec3 v_position;
+		in vec3 v_color;
 		
-		out lowp vec3 f_colors;
+		out lowp vec3 f_color;
 		
 		void main() {
-			f_colors = v_colors;
-			gl_Position = vec4(positions, 1.0);
+			f_color = v_color;
+			gl_Position = vec4(v_position, 1.0);
 		}
 	`;
 
@@ -58,12 +58,12 @@ function main() {
 	
 		precision mediump float;
 	
-		in lowp vec3 f_colors;
+		in lowp vec3 f_color;
 		
 		out vec4 fragmentColor;
 	
 		void main() {
-			fragmentColor = vec4(f_colors, 1.0);
+			fragmentColor = vec4(f_color, 1.0);
 		}
   	`;
 
@@ -121,20 +121,22 @@ function main() {
 	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
 	
 	// get the point in our vertex shader where we can insert our positions
-	var position_location = gl.getAttribLocation(shaderProgram, "positions");
+	var position_location = gl.getAttribLocation(shaderProgram, "v_position");
 	
 	// tell the vertex shader how to interpret the vertex data.
 	// 1st arg: pointer to the position where the vertex data can be inserted
 	// 2nd arg: number of components per vertex attribute (3 for us, as we are working with x,y,z axis)
 	// 3rd arg: what type of data each vertex attribute will be 
 	// 4th arg: normalization, this has no effect on floats, but will cast other types into their usual values
-	// 5th arg: specifies the offset (in bytes) between vertex attributes.
+	// 5th arg: specifies the offset in bytes between vertex attributes. In this case 6*4 because we have 6
+	//			values per element (x,y,z,r,g,b) times 4 bytes (32 bit floats).
 	// 6th arg: offset, specifies at which position (in bytes) in the vertex array the first element starts.
-	gl.vertexAttribPointer(position_location, 3, gl.FLOAT, false, 3*8, 0);
+	gl.vertexAttribPointer(position_location, 3, gl.FLOAT, false, 6*4, 0);
 	
 	// now do the same for colors (from the same vertices array)
-	var color_location = gl.getAttribLocation(shaderProgram, "v_colors");
-	gl.vertexAttribPointer(color_location, 3, gl.FLOAT, false, 3*8, 3*4); 
+	var color_location = gl.getAttribLocation(shaderProgram, "v_color");
+	// The 6th arg is 3*4 because we skip 3 elements of 4 bytes (32 bits) to get to the colors.
+	gl.vertexAttribPointer(color_location, 3, gl.FLOAT, false, 6*4, 3*4); 
 	
 	// unbind the buffer to prevent unwanted changes later
 	gl.bindBuffer(gl.ARRAY_BUFFER, null);
