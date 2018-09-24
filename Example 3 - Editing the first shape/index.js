@@ -99,7 +99,7 @@ function main() {
 	* --------------------------------------------------------------------------------------------
 	*/
 
-	// create an array holding all our vertex data. 	Note: This will become a square
+	// create an array holding all our vertex data.
 	var vertices = [
 	   //---positions---\   /---colors---\
 	   // x		y     z	   	 r	  g	   b
@@ -133,6 +133,9 @@ function main() {
 	// 6th arg: offset, specifies at which position (in bytes) in the vertex array the first element starts.
 	gl.vertexAttribPointer(position_location, 3, gl.FLOAT, false, 6*4, 0);
 	
+	// use this if you want to seperate the position and color buffers instead of the above one.
+	//gl.vertexAttribPointer(position_location, 3, gl.FLOAT, false, 0, 0);
+	
 	// now do the same for colors (from the same vertices array)
 	var color_location = gl.getAttribLocation(shaderProgram, "v_color");
 	// The 6th arg is 3*4 because we skip 3 elements of 4 bytes (32 bits) to get to the colors.
@@ -150,21 +153,23 @@ function main() {
 	// Note: The vertex buffer can be split in a position and color buffer too,
 	// they are not required to be in the same array.
 	// color buffer
-	//var colors = [
-	//	 r	  g    b
-	//	1.0, 0.0, 0.0,	// lower left corner
-	//	0.0, 1.0, 0.0,	// lower right corner
-	//	0.0, 0.0, 0.0,	// upper left corner
-	//	0.0, 0.0, 1.0,	// upper right corner
-	//];
-	
-	//var color_buffer = gl.createBuffer();
-	//gl.bindBuffer(gl.ARRAY_BUFFER, color_buffer);
-	//gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
-	//var color_location = gl.getAttribLocation(shaderProgram, "v_colors");
-	//gl.vertexAttribPointer(color_location, 3, gl.FLOAT, false, 0, 0); 
-	//gl.bindBuffer(gl.ARRAY_BUFFER, null);
-
+	/*
+		var colors = [
+		//	 r	  g    b
+			1.0, 0.0, 0.0,	// lower left corner
+			0.0, 1.0, 0.0,	// lower right corner
+			0.0, 0.0, 0.0,	// upper left corner
+			0.0, 0.0, 1.0	// upper right corner
+		];
+		
+		var color_buffer = gl.createBuffer();
+		gl.bindBuffer(gl.ARRAY_BUFFER, color_buffer);
+		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
+		
+		var color_location = gl.getAttribLocation(shaderProgram, "v_color");
+		gl.vertexAttribPointer(color_location, 3, gl.FLOAT, false, 0, 0); 
+		gl.bindBuffer(gl.ARRAY_BUFFER, null);
+	*/
 	
 	/*
 	* --------------------------------------------------------------------------------------------
@@ -174,6 +179,7 @@ function main() {
 
 	// bind our buffer objects to WebGL
 	gl.bindBuffer(gl.ARRAY_BUFFER, vertex_buffer);
+	//gl.bindBuffer(gl.ARRAY_BUFFER, color_buffer);
 	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, index_buffer);
 
 	// tell WebGL to enable the vertex attribute we just specified.
