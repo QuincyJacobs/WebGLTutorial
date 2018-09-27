@@ -106,6 +106,7 @@ function main() {
 		-0.5, -0.5,  0.0, 	1.0, 0.0, 0.0,	// lower left corner
 	 	 0.5, -0.5,  0.0, 	0.0, 1.0, 0.0,	// lower right corner
 		-0.5,  0.5,  0.0, 	0.0, 0.0, 0.0,	// upper left corner
+		 0.5,  0.5,  0.0, 	0.0, 0.0, 1.0 	// upper right corner
 	];
 
 	// indices show the 3 points that create a triangle.
