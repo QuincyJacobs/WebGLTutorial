@@ -111,9 +111,9 @@ function main() {
 	   //---positions---\   /---colors---\  /--texture--\
 	   // x		y     z	   	 r	  g	   b
 		-0.5, -0.5,  0.0, 	1.0, 0.0, 0.0,	  0.0, 1.0,		// lower left corner
-	 	 0.5, -0.5,  0.0, 	0.0, 1.0, 0.0,	  1.0, 1.0,		// lower right corner
+	 	 0.5, -0.5,  0.0, 	0.0, 1.0, 0.0,	  1.5, 1.0,		// lower right corner
 		-0.5,  0.5,  0.0, 	0.0, 0.0, 0.0,	  0.0, 0.0,		// upper left corner
-		 0.5,  0.5,  0.0, 	0.0, 0.0, 1.0,	  1.0, 0.0		// upper right corner
+		 0.5,  0.5,  0.0, 	0.0, 0.0, 1.0,	  1.5, 0.0		// upper right corner
 	];
 
 	// textures range:
@@ -286,7 +286,12 @@ function loadTexture(gl, url)
               new Uint8Array([0, 0, 255, 255]));
 
 	var image = new Image();
-	image.src = url;
+	//TODO: local image
+	//var loc = window.location.pathname;
+	//var path = "file://" + loc.substring(0, loc.lastIndexOf('/')) + "/brick-wall.png";
+	path = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSN1rTxQK09zRbFBGZw6d5OL3e35To1XjS2oZ0FLTlSTACo3VMqnQ';
+	requestCORSIfNotSameOrigin(image, path);
+	image.src = path;
 	image.addEventListener('load', function(){
 		gl.bindTexture(gl.TEXTURE_2D, texture);
 		gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
@@ -294,4 +299,10 @@ function loadTexture(gl, url)
 	});
 	
 	return texture;
+}
+
+function requestCORSIfNotSameOrigin(img, url) {
+  if ((new URL(url)).origin !== window.location.origin) {
+    img.crossOrigin = "";
+  }
 }
