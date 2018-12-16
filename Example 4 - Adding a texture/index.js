@@ -235,6 +235,7 @@ function main() {
 // function that loads in a shader
 function loadTexture(gl, url)
 {
+	// create a texture and bind it to the gl context
 	var texture = gl.createTexture();
 	gl.bindTexture(gl.TEXTURE_2D, texture);
 
@@ -249,10 +250,21 @@ function loadTexture(gl, url)
 	path = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSN1rTxQK09zRbFBGZw6d5OL3e35To1XjS2oZ0FLTlSTACo3VMqnQ';
 	requestCORSIfNotSameOrigin(image, path);
 	image.src = path;
-	image.addEventListener('load', function(){
-		gl.bindTexture(gl.TEXTURE_2D, texture);
+
+	// when the image is loaded, set the texture properties
+	image.addEventListener('load', function()
+	{
+		// set 4 different texture settings (https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/texParameter)
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+  		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+  		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+  		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+
+  		// instead of setting texParameteri 4 times we can use the line below,
+		// but we will also lose the ability to alter texture behavior.
+		//gl.generateMipmap(gl.TEXTURE_2D);
 		gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
-		gl.generateMipmap(gl.TEXTURE_2D);
+		
 	});
 	
 	return texture;
