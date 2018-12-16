@@ -44,18 +44,6 @@ function main() {
 		}
 	`;
 
-	// create a vertex shader object, attach the shader source to the object and compile the shader
-  	var vertexShader = gl.createShader(gl.VERTEX_SHADER);
-    gl.shaderSource(vertexShader, vertexShaderSource);
-    gl.compileShader(vertexShader);
-
-    // debugging the shader
-     if (!gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS)) {
-	     alert('An error occurred compiling the shaders: ' + gl.getShaderInfoLog(vertexShader));
-	     gl.deleteShader(vertexShader);
-	     return null;
-	 }
-
 	// the fragment shader source code
 	const fragmentShaderSource = `#version 300 es
 	
@@ -74,24 +62,12 @@ function main() {
 		}
   	`;
 
-	// create a fragment shader object, attach the shader source to the object and compile the shader
-    var fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
-    gl.shaderSource(fragmentShader, fragmentShaderSource);
-    gl.compileShader(fragmentShader);
-
-    // debugging the shader
-     if (!gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS)) {
-	     alert('An error occurred compiling the shaders: ' + gl.getShaderInfoLog(fragmentShader));
-	     gl.deleteShader(fragmentShader);
-	     return null;
-	 }
-
     // finally create a shader program that links our shaders to each other.
 	var shaderProgram = gl.createProgram();
 
-	// attach our shaders to the program
-	gl.attachShader(shaderProgram, vertexShader);
-	gl.attachShader(shaderProgram, fragmentShader);
+	// compile and add our shaders
+	createShader(gl, vertexShaderSource, gl.VERTEX_SHADER, shaderProgram);
+	createShader(gl, fragmentShaderSource, gl.FRAGMENT_SHADER, shaderProgram);
 
 	// link the shader programs to each other
 	gl.linkProgram(shaderProgram);
@@ -166,28 +142,8 @@ function main() {
 	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, index_buffer);
 	gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW);
 	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
-	
-	// Note: The vertex buffer can be split in a position and color buffer too,
-	// they are not required to be in the same array.
-	// color buffer
-	/*
-		var colors = [
-		//	 r	  g    b
-			1.0, 0.0, 0.0,	// lower left corner
-			0.0, 1.0, 0.0,	// lower right corner
-			0.0, 0.0, 0.0,	// upper left corner
-			0.0, 0.0, 1.0	// upper right corner
-		];
-		
-		var color_buffer = gl.createBuffer();
-		gl.bindBuffer(gl.ARRAY_BUFFER, color_buffer);
-		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
-		
-		var color_location = gl.getAttribLocation(shaderProgram, "v_color");
-		gl.vertexAttribPointer(color_location, 3, gl.FLOAT, false, 0, 0); 
-		gl.bindBuffer(gl.ARRAY_BUFFER, null);
-	*/
-	
+
+
 	/*
 	* --------------------------------------------------------------------------------------------
 	* Connect the shaders and vertex data
@@ -276,6 +232,7 @@ function main() {
 	}
 }
 
+// function that loads in a shader
 function loadTexture(gl, url)
 {
 	var texture = gl.createTexture();
@@ -283,7 +240,7 @@ function loadTexture(gl, url)
 
 	// image placeholder until it has been loaded from a file
 	gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
-              new Uint8Array([0, 0, 255, 255]));
+              new Uint8Array([127, 127, 127, 255]));
 
 	var image = new Image();
 	//TODO: local image
@@ -301,8 +258,29 @@ function loadTexture(gl, url)
 	return texture;
 }
 
-function requestCORSIfNotSameOrigin(img, url) {
+// function to request CORS for Cross-Origin Images
+function requestCORSIfNotSameOrigin(img, url) 
+{
   if ((new URL(url)).origin !== window.location.origin) {
     img.crossOrigin = "";
   }
+}
+
+// function to create, compile and add shaders to the shaderProgram
+function createShader(gl, shaderSource, shaderType, shaderProgram)
+{
+	// create a shader object, attach the shader source to the object and compile the shader
+    var shader = gl.createShader(shaderType);
+    gl.shaderSource(shader, shaderSource);
+    gl.compileShader(shader);
+
+	// debugging the shader
+	if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+		alert('An error occurred compiling a shader: ' + gl.getShaderInfoLog(shader));
+		gl.deleteShader(shader);
+		return null;
+	}
+
+	// attach our shader to the program
+	gl.attachShader(shaderProgram, shader);
 }
