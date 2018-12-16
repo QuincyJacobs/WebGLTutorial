@@ -203,7 +203,7 @@ function main() {
 	gl.clear(gl.COLOR_BUFFER_BIT);
 
 	// set the viewport for WebGL to the canvas we have in our html.
-	gl.viewport(0,0,canvas.width,canvas.height);
+	gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
 
 	// draw the triangles
 	// 1st arg: drawing mode, the way WebGL will connect our vertex positions into a shape
