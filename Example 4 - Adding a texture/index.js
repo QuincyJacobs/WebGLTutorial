@@ -86,10 +86,10 @@ function main() {
 	var vertices = [
 	   //---positions---\   /---colors---\  /--texture--\
 	   // x		y     z	   	 r	  g	   b
-		-0.5, -0.5,  0.0, 	1.0, 0.0, 0.0,	  0.0, 1.0,		// lower left corner
-	 	 0.5, -0.5,  0.0, 	0.0, 1.0, 0.0,	  1.5, 1.0,		// lower right corner
+		-0.5, -0.5,  0.0, 	1.0, 0.0, 0.0,	  0.0, 2.0,		// lower left corner
+	 	 0.5, -0.5,  0.0, 	0.0, 1.0, 0.0,	  3.0, 2.0,		// lower right corner
 		-0.5,  0.5,  0.0, 	0.0, 0.0, 0.0,	  0.0, 0.0,		// upper left corner
-		 0.5,  0.5,  0.0, 	0.0, 0.0, 1.0,	  1.5, 0.0		// upper right corner
+		 0.5,  0.5,  0.0, 	0.0, 0.0, 1.0,	  3.0, 0.0		// upper right corner
 	];
 
 	// textures range:
@@ -273,7 +273,8 @@ function loadTexture(gl, url)
 // function to request CORS for Cross-Origin Images
 function requestCORSIfNotSameOrigin(img, url) 
 {
-  if ((new URL(url)).origin !== window.location.origin) {
+  if ((new URL(url)).origin !== window.location.origin) 
+  {
     img.crossOrigin = "";
   }
 }
