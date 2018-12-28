@@ -173,7 +173,7 @@ function main() {
 	// tell WebGL we want to affect texture unit 0
 	gl.activeTexture(gl.TEXTURE0);
 	
-	// bind the texture to texture unit 0
+	// bind the texture to the active texture unit
 	gl.bindTexture(gl.TEXTURE_2D, texture);
 
 
