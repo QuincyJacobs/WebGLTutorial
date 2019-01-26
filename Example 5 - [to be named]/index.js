@@ -37,10 +37,12 @@ function main() {
 		out lowp vec3 f_color;
 		out lowp vec2 f_texture;
 		
+		uniform vec4 transform;
+
 		void main() {
 			f_color = v_color;
 			f_texture = v_texture;
-			gl_Position = vec4(v_position, 1.0);
+			gl_Position = transform + vec4(v_position, 1.0);
 		}
 	`;
 
@@ -175,6 +177,16 @@ function main() {
 	
 	// bind the texture to the active texture unit
 	gl.bindTexture(gl.TEXTURE_2D, texture);
+
+
+	/*
+	* --------------------------------------------------------------------------------------------
+	* Attach our transform to the shader
+	* --------------------------------------------------------------------------------------------
+	*/
+
+	var transform_location = gl.getUniformLocation(shaderProgram, "transform");
+	gl.uniform4fv(transform_location, [0.2,0,0,0]);
 
 
 	/*
