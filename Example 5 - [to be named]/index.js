@@ -1,3 +1,34 @@
+// Object holding functions for 3d math
+var math3d = new function()
+{
+	// Return the identity matrix (a matrix with diagonal 1's so each row and column will always have a 1 once)
+	// [1, 0, 0, 0]
+	// [0, 1, 0, 0]
+	// [0, 0, 1, 0]
+	// [0, 0, 0, 1]
+	this.identity = function(identityMatrix = new Float32Array(16))
+	{
+		identityMatrix[0] = 1;
+		identityMatrix[1] = 0;
+		identityMatrix[2] = 0;
+		identityMatrix[3] = 0;
+		identityMatrix[4] = 0;
+		identityMatrix[5] = 1;
+		identityMatrix[6] = 0;
+		identityMatrix[7] = 0;
+		identityMatrix[8] = 0;
+		identityMatrix[9] = 0;
+		identityMatrix[10] = 1;
+		identityMatrix[11] = 0;
+		identityMatrix[12] = 0;
+		identityMatrix[13] = 0;
+		identityMatrix[14] = 0;
+		identityMatrix[15] = 1;
+
+		return identityMatrix;
+	}
+}
+
 main();
 
 function main() {
@@ -37,12 +68,12 @@ function main() {
 		out lowp vec3 f_color;
 		out lowp vec2 f_texture;
 		
-		uniform vec4 transform;
+		uniform mat4 transform;
 
 		void main() {
 			f_color = v_color;
 			f_texture = v_texture;
-			gl_Position = transform + vec4(v_position, 1.0);
+			gl_Position = transform * vec4(v_position, 1.0);
 		}
 	`;
 
@@ -186,7 +217,8 @@ function main() {
 	*/
 
 	var transform_location = gl.getUniformLocation(shaderProgram, "transform");
-	gl.uniform4fv(transform_location, [0.2,0,0,0]);
+	var identityMatrix = math3d.identity();
+	gl.uniformMatrix4fv(transform_location, false, identityMatrix);
 
 
 	/*
