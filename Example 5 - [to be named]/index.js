@@ -2,30 +2,94 @@
 var math3d = new function()
 {
 	// Return the identity matrix (a matrix with diagonal 1's so each row and column will always have a 1 once)
-	// [1, 0, 0, 0]
-	// [0, 1, 0, 0]
-	// [0, 0, 1, 0]
-	// [0, 0, 0, 1]
-	this.identity = function(identityMatrix = new Float32Array(16))
+	this.identityMatrix = function()
 	{
-		identityMatrix[0] = 1;
-		identityMatrix[1] = 0;
-		identityMatrix[2] = 0;
-		identityMatrix[3] = 0;
-		identityMatrix[4] = 0;
-		identityMatrix[5] = 1;
-		identityMatrix[6] = 0;
-		identityMatrix[7] = 0;
-		identityMatrix[8] = 0;
-		identityMatrix[9] = 0;
-		identityMatrix[10] = 1;
-		identityMatrix[11] = 0;
-		identityMatrix[12] = 0;
-		identityMatrix[13] = 0;
-		identityMatrix[14] = 0;
-		identityMatrix[15] = 1;
+		return [1, 0, 0, 0,
+				0, 1, 0, 0,
+				0, 0, 1, 0,
+				0, 0, 0, 1];
+	}
 
-		return identityMatrix;
+	this.scaleMatrix = function(s1, s2, s3)
+	{
+		return [s1, 0, 0, 0,
+				0, s2, 0, 0,
+				0, 0, s3, 0,
+				0, 0, 0, 1];
+	}
+
+	this.translationMatrix = function(t1, t2, t3)
+	{
+		return [1, 0, 0, t1,
+				0, 1, 0, t2,
+				0, 0, 1, t3,
+				0, 0, 0, 1];
+	}
+
+	this.degreesToRadians = function(degrees)
+	{
+		return (degrees * (Math.PI / 180.0));
+	}
+
+	this.radiansToDegrees = function(radians)
+	{
+		return (radians * (180.0 / Math.PI));
+	}
+
+	this.xRotationMatrix = function(rotationInDegrees)
+	{
+		var rotationInRadians = this.degreesToRadians(rotationInDegrees);
+		var c = Math.cos(rotationInRadians);
+		var s = Math.sin(rotationInRadians);
+
+		return [1, 0, 0, 0,
+				0, c, s, 0,
+				0, -s, c, 0,
+				0, 0, 0, 1];
+	}
+
+	this.yRotationMatrix = function(rotationInDegrees)
+	{
+		var rotationInRadians = this.degreesToRadians(rotationInDegrees);
+		var c = Math.cos(rotationInRadians);
+		var s = Math.sin(rotationInRadians);
+
+		return [c, 0, -s, 0,
+				0, 1, 0, 0,
+				s, 0, c, 0,
+				0, 0, 0, 1];
+	}
+
+	this.zRotationMatrix = function(rotationInDegrees)
+	{
+		var rotationInRadians = this.degreesToRadians(rotationInDegrees);
+		var c = Math.cos(rotationInRadians);
+		var s = Math.sin(rotationInRadians);
+
+		return [c, s, 0, 0,
+				-s, c, 0, 0,
+				0, 0, 1, 0,
+				0, 0, 0, 1];
+	}
+
+	this.multiplyMatrix = function(m1, m2)
+	{
+		return [m1[0]*m2[0] + m1[1]*m2[4] + m1[2]*m2[8] + m1[3]*m2[12],
+				m1[0]*m2[1] + m1[1]*m2[5] + m1[2]*m2[9] + m1[3]*m2[13],
+				m1[0]*m2[2] + m1[1]*m2[6] + m1[2]*m2[10] + m1[3]*m2[14],
+				m1[0]*m2[3] + m1[1]*m2[7] + m1[2]*m2[11] + m1[3]*m2[15],
+				m1[4]*m2[0] + m1[5]*m2[4] + m1[6]*m2[8] + m1[7]*m2[12],
+				m1[4]*m2[1] + m1[5]*m2[5] + m1[6]*m2[9] + m1[7]*m2[13],
+				m1[4]*m2[2] + m1[5]*m2[6] + m1[6]*m2[10] + m1[7]*m2[14],
+				m1[4]*m2[3] + m1[5]*m2[7] + m1[6]*m2[11] + m1[7]*m2[15],
+				m1[8]*m2[0] + m1[9]*m2[4] + m1[10]*m2[8] + m1[11]*m2[12],
+				m1[8]*m2[1] + m1[9]*m2[5] + m1[10]*m2[9] + m1[11]*m2[13],
+				m1[8]*m2[2] + m1[9]*m2[6] + m1[10]*m2[10] + m1[11]*m2[14],
+				m1[8]*m2[3] + m1[9]*m2[7] + m1[10]*m2[11] + m1[11]*m2[15],
+				m1[12]*m2[0] + m1[13]*m2[4] + m1[14]*m2[8] + m1[15]*m2[12],
+				m1[12]*m2[1] + m1[13]*m2[5] + m1[14]*m2[9] + m1[15]*m2[13],
+				m1[12]*m2[2] + m1[13]*m2[6] + m1[14]*m2[10] + m1[15]*m2[14],
+				m1[12]*m2[3] + m1[13]*m2[7] + m1[14]*m2[11] + m1[15]*m2[15]];
 	}
 }
 
@@ -134,7 +198,7 @@ function main() {
 	// indices show the 3 points that create a triangle.
 	var indices = [
 		0, 1, 2,	// 1st triangle
-		1, 2, 3		// 2nd triangle
+		1, 3, 2		// 2nd triangle
 	];
 	
 	// create a buffer, bind it to webgl as our active buffer and put our vertices in the buffer
@@ -217,8 +281,8 @@ function main() {
 	*/
 
 	var transform_location = gl.getUniformLocation(shaderProgram, "transform");
-	var identityMatrix = math3d.identity();
-	gl.uniformMatrix4fv(transform_location, false, identityMatrix);
+	var matrix = math3d.identityMatrix();
+	gl.uniformMatrix4fv(transform_location, false, matrix);
 
 
 	/*
@@ -234,7 +298,7 @@ function main() {
     gl.enable(gl.DEPTH_TEST);
 	
 	// clear the screen
-	gl.clear(gl.COLOR_BUFFER_BIT);
+	gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
 	// set the viewport for WebGL to the canvas we have in our html.
 	gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
@@ -255,8 +319,8 @@ function main() {
 	*/	
 	
 	// track the time of the last draw call
-	var previous = 0
-	
+	var previous = 0;
+
 	// see if a new frame can be drawn
 	requestAnimationFrame(drawScene);
 	
@@ -267,6 +331,15 @@ function main() {
 		var deltaTime = now - previous;
 		// remember the current time for the next frame.
 		previous = now;
+
+		var matrix = math3d.identityMatrix();
+		matrix = math3d.multiplyMatrix(matrix, math3d.xRotationMatrix(75));
+		matrix = math3d.multiplyMatrix(matrix, math3d.yRotationMatrix(now*20));
+		matrix = math3d.multiplyMatrix(matrix, math3d.zRotationMatrix(75));
+
+		// Apply our matrix to all positions going through the vertex shader
+		gl.uniformMatrix4fv(transform_location, false, matrix);
+
 
 		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 		gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
