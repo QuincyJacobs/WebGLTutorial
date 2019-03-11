@@ -4,26 +4,29 @@ var math3d = new function()
 	// Return the identity matrix (a matrix with diagonal 1's so each row and column will always have a 1 once)
 	this.identityMatrix = function()
 	{
-		return [1, 0, 0, 0,
-				0, 1, 0, 0,
-				0, 0, 1, 0,
-				0, 0, 0, 1];
+		return new Float32Array(
+			[1, 0, 0, 0,
+			 0, 1, 0, 0,
+			 0, 0, 1, 0,
+			 0, 0, 0, 1]);
 	}
 
 	this.scaleMatrix = function(s1, s2, s3)
 	{
-		return [s1, 0, 0, 0,
-				0, s2, 0, 0,
-				0, 0, s3, 0,
-				0, 0, 0, 1];
+		return new Float32Array(
+			[s1, 0, 0, 0,
+			 0, s2, 0, 0,
+			 0, 0, s3, 0,
+			 0, 0, 0, 1]);
 	}
 
 	this.translationMatrix = function(t1, t2, t3)
 	{
-		return [1, 0, 0, t1,
-				0, 1, 0, t2,
-				0, 0, 1, t3,
-				0, 0, 0, 1];
+		return new Float32Array(
+			[1, 0, 0, t1,
+			 0, 1, 0, t2,
+			 0, 0, 1, t3,
+			 0, 0, 0, 1]);
 	}
 
 	this.degreesToRadians = function(degrees)
@@ -43,10 +46,11 @@ var math3d = new function()
 		var c = Math.cos(rotationInRadians);
 		var s = Math.sin(rotationInRadians);
 
-		return [1, 0, 0, 0,
-				0, c, s, 0,
-				0, -s, c, 0,
-				0, 0, 0, 1];
+		return new Float32Array(
+			[1, 0, 0, 0,
+			 0, c, s, 0,
+			 0, -s, c, 0,
+			 0, 0, 0, 1]);
 	}
 
 	// Clockwise rotation on the y axis
@@ -56,10 +60,11 @@ var math3d = new function()
 		var c = Math.cos(rotationInRadians);
 		var s = Math.sin(rotationInRadians);
 
-		return [c, 0, -s, 0,
-				0, 1, 0, 0,
-				s, 0, c, 0,
-				0, 0, 0, 1];
+		return new Float32Array(
+			[c, 0, -s, 0,
+			 0, 1, 0, 0,
+			 s, 0, c, 0,
+			 0, 0, 0, 1]);
 	}
 
 	// Clockwise rotation on the z axis
@@ -69,30 +74,32 @@ var math3d = new function()
 		var c = Math.cos(rotationInRadians);
 		var s = Math.sin(rotationInRadians);
 
-		return [c, s, 0, 0,
-				-s, c, 0, 0,
-				0, 0, 1, 0,
-				0, 0, 0, 1];
+		return new Float32Array(
+			[c, s, 0, 0,
+			 -s, c, 0, 0,
+			 0, 0, 1, 0,
+			 0, 0, 0, 1]);
 	}
 
 	this.multiplyMatrix = function(m1, m2)
 	{
-		return [m1[0]*m2[0] + m1[1]*m2[4] + m1[2]*m2[8] + m1[3]*m2[12],
-				m1[0]*m2[1] + m1[1]*m2[5] + m1[2]*m2[9] + m1[3]*m2[13],
-				m1[0]*m2[2] + m1[1]*m2[6] + m1[2]*m2[10] + m1[3]*m2[14],
-				m1[0]*m2[3] + m1[1]*m2[7] + m1[2]*m2[11] + m1[3]*m2[15],
-				m1[4]*m2[0] + m1[5]*m2[4] + m1[6]*m2[8] + m1[7]*m2[12],
-				m1[4]*m2[1] + m1[5]*m2[5] + m1[6]*m2[9] + m1[7]*m2[13],
-				m1[4]*m2[2] + m1[5]*m2[6] + m1[6]*m2[10] + m1[7]*m2[14],
-				m1[4]*m2[3] + m1[5]*m2[7] + m1[6]*m2[11] + m1[7]*m2[15],
-				m1[8]*m2[0] + m1[9]*m2[4] + m1[10]*m2[8] + m1[11]*m2[12],
-				m1[8]*m2[1] + m1[9]*m2[5] + m1[10]*m2[9] + m1[11]*m2[13],
-				m1[8]*m2[2] + m1[9]*m2[6] + m1[10]*m2[10] + m1[11]*m2[14],
-				m1[8]*m2[3] + m1[9]*m2[7] + m1[10]*m2[11] + m1[11]*m2[15],
-				m1[12]*m2[0] + m1[13]*m2[4] + m1[14]*m2[8] + m1[15]*m2[12],
-				m1[12]*m2[1] + m1[13]*m2[5] + m1[14]*m2[9] + m1[15]*m2[13],
-				m1[12]*m2[2] + m1[13]*m2[6] + m1[14]*m2[10] + m1[15]*m2[14],
-				m1[12]*m2[3] + m1[13]*m2[7] + m1[14]*m2[11] + m1[15]*m2[15]];
+		return new Float32Array(
+			[m1[0]*m2[0] + m1[1]*m2[4] + m1[2]*m2[8] + m1[3]*m2[12],
+			 m1[0]*m2[1] + m1[1]*m2[5] + m1[2]*m2[9] + m1[3]*m2[13],
+			 m1[0]*m2[2] + m1[1]*m2[6] + m1[2]*m2[10] + m1[3]*m2[14],
+			 m1[0]*m2[3] + m1[1]*m2[7] + m1[2]*m2[11] + m1[3]*m2[15],
+			 m1[4]*m2[0] + m1[5]*m2[4] + m1[6]*m2[8] + m1[7]*m2[12],
+			 m1[4]*m2[1] + m1[5]*m2[5] + m1[6]*m2[9] + m1[7]*m2[13],
+			 m1[4]*m2[2] + m1[5]*m2[6] + m1[6]*m2[10] + m1[7]*m2[14],
+			 m1[4]*m2[3] + m1[5]*m2[7] + m1[6]*m2[11] + m1[7]*m2[15],
+			 m1[8]*m2[0] + m1[9]*m2[4] + m1[10]*m2[8] + m1[11]*m2[12],
+			 m1[8]*m2[1] + m1[9]*m2[5] + m1[10]*m2[9] + m1[11]*m2[13],
+			 m1[8]*m2[2] + m1[9]*m2[6] + m1[10]*m2[10] + m1[11]*m2[14],
+			 m1[8]*m2[3] + m1[9]*m2[7] + m1[10]*m2[11] + m1[11]*m2[15],
+			 m1[12]*m2[0] + m1[13]*m2[4] + m1[14]*m2[8] + m1[15]*m2[12],
+			 m1[12]*m2[1] + m1[13]*m2[5] + m1[14]*m2[9] + m1[15]*m2[13],
+			 m1[12]*m2[2] + m1[13]*m2[6] + m1[14]*m2[10] + m1[15]*m2[14],
+			 m1[12]*m2[3] + m1[13]*m2[7] + m1[14]*m2[11] + m1[15]*m2[15]]);
 	}
 }
 
@@ -140,7 +147,7 @@ function main() {
 		void main() {
 			f_color = v_color;
 			f_texture = v_texture;
-			gl_Position = transform * vec4(v_position, 1.0);
+			gl_Position = vec4(v_position, 1.0) * transform;
 		}
 	`;
 
@@ -335,10 +342,12 @@ function main() {
 		// remember the current time for the next frame.
 		previous = now;
 
+		// TODO: Create and comment out a few matrix examples - created by: Quincy Jacobs
+
 		var matrix = math3d.identityMatrix();
-		matrix = math3d.multiplyMatrix(matrix, math3d.xRotationMatrix(75));
+		matrix = math3d.multiplyMatrix(matrix, math3d.xRotationMatrix(55));
 		matrix = math3d.multiplyMatrix(matrix, math3d.yRotationMatrix(now*20));
-		matrix = math3d.multiplyMatrix(matrix, math3d.zRotationMatrix(75));
+		matrix = math3d.multiplyMatrix(matrix, math3d.zRotationMatrix(35));
 
 		// Apply our matrix to all positions going through the vertex shader
 		gl.uniformMatrix4fv(transform_location, false, matrix);
