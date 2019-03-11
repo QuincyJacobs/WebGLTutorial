@@ -36,6 +36,7 @@ var math3d = new function()
 		return (radians * (180.0 / Math.PI));
 	}
 
+	// Clockwise rotation on the x axis
 	this.xRotationMatrix = function(rotationInDegrees)
 	{
 		var rotationInRadians = this.degreesToRadians(rotationInDegrees);
@@ -48,6 +49,7 @@ var math3d = new function()
 				0, 0, 0, 1];
 	}
 
+	// Clockwise rotation on the y axis
 	this.yRotationMatrix = function(rotationInDegrees)
 	{
 		var rotationInRadians = this.degreesToRadians(rotationInDegrees);
@@ -60,6 +62,7 @@ var math3d = new function()
 				0, 0, 0, 1];
 	}
 
+	// Clockwise rotation on the z axis
 	this.zRotationMatrix = function(rotationInDegrees)
 	{
 		var rotationInRadians = this.degreesToRadians(rotationInDegrees);
