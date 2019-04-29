@@ -189,14 +189,59 @@ function main() {
 	* --------------------------------------------------------------------------------------------
 	*/
 
+	// MODIFIED
 	// create an array holding all our vertex data.
 	var vertices = [
 	   //---positions---\   /---colors---\  /--texture--\
-	   // x		y     z	   	 r	  g	   b 	   s    t
-		-0.5, -0.5,  0.0, 	1.0, 0.0, 0.0,	  0.0, 1.0,		// lower left corner
-	 	 0.5, -0.5,  0.0, 	0.0, 1.0, 0.0,	  1.5, 1.0,		// lower right corner
-		-0.5,  0.5,  0.0, 	0.0, 0.0, 0.0,	  0.0, 0.0,		// upper left corner
-		 0.5,  0.5,  0.0, 	0.0, 0.0, 1.0,	  1.5, 0.0		// upper right corner
+	   // x		y     z	   	  r	   g	b 	   s    t
+	   // front face
+		-0.5, -0.5,   0.5, 	 1.0, 0.0, 0.0,	  0.0, 1.0,		// lower left corner
+		-0.5,  0.5,   0.5, 	 0.0, 0.0, 0.0,	  0.0, 0.0,		// upper left corner
+	 	 0.5, -0.5,   0.5, 	 1.0, 0.0, 1.0,	  1.5, 1.0,		// lower right corner
+	 	 0.5, -0.5,   0.5, 	 1.0, 0.0, 1.0,	  1.5, 1.0,		// lower right corner
+		-0.5,  0.5,   0.5, 	 0.0, 0.0, 0.0,	  0.0, 0.0,		// upper left corner
+		 0.5,  0.5,   0.5, 	 0.0, 0.0, 1.0,	  1.5, 0.0,		// upper right corner
+
+	   // back face
+	     0.5, -0.5,  -0.5,   1.0, 1.0, 1.0,	  0.0, 1.0,		// lower left corner
+		 0.5,  0.5,  -0.5, 	 0.0, 1.0, 1.0,	  0.0, 0.0,		// upper left corner
+	 	-0.5, -0.5,  -0.5, 	 0.0, 1.0, 0.0,	  1.5, 1.0, 	// lower right corner
+	 	-0.5, -0.5,  -0.5, 	 0.0, 1.0, 0.0,	  1.5, 1.0, 	// lower right corner
+		 0.5,  0.5,  -0.5, 	 0.0, 1.0, 1.0,	  0.0, 0.0,		// upper left corner
+		-0.5,  0.5,  -0.5,   1.0, 1.0, 0.0,	  1.5, 0.0, 	// upper right corner
+
+		// left face
+	 	-0.5, -0.5,  -0.5, 	 0.0, 1.0, 0.0,	  0.0, 1.0, 	// lower right corner
+		-0.5,  0.5,  -0.5,   1.0, 1.0, 0.0,	  0.0, 0.0, 	// upper right corner
+		-0.5, -0.5,   0.5, 	 1.0, 0.0, 0.0,	  1.5, 1.0,		// lower left corner
+		-0.5, -0.5,   0.5, 	 1.0, 0.0, 0.0,	  1.5, 1.0,		// lower left corner
+		-0.5,  0.5,  -0.5,   1.0, 1.0, 0.0,	  0.0, 0.0, 	// upper right corner
+		-0.5,  0.5,   0.5, 	 0.0, 0.0, 0.0,	  1.5, 0.0,		// upper left corner
+
+		// right face
+	 	 0.5, -0.5,   0.5, 	 1.0, 0.0, 1.0,	  0.0, 1.0,		// lower right corner
+		 0.5,  0.5,   0.5, 	 0.0, 0.0, 1.0,	  0.0, 0.0,		// upper right corner
+	     0.5, -0.5,  -0.5,   1.0, 1.0, 1.0,	  1.5, 1.0,		// lower left corner
+	     0.5, -0.5,  -0.5,   1.0, 1.0, 1.0,	  1.5, 1.0,		// lower left corner
+		 0.5,  0.5,   0.5, 	 0.0, 0.0, 1.0,	  0.0, 0.0,		// upper right corner
+		 0.5,  0.5,  -0.5, 	 0.0, 1.0, 1.0,	  1.5, 0.0,		// upper left corner
+
+		 // bottom face
+	 	-0.5, -0.5,  -0.5, 	 0.0, 1.0, 0.0,	  0.0, 1.0, 	// lower right corner
+		-0.5, -0.5,   0.5, 	 1.0, 0.0, 0.0,	  0.0, 0.0,		// lower left corner
+	     0.5, -0.5,  -0.5,   1.0, 1.0, 1.0,	  1.5, 1.0,		// lower left corner
+	     0.5, -0.5,  -0.5,   1.0, 1.0, 1.0,	  1.5, 1.0,		// lower left corner
+		-0.5, -0.5,   0.5, 	 1.0, 0.0, 0.0,	  0.0, 0.0,		// lower left corner
+	 	 0.5, -0.5,   0.5, 	 1.0, 0.0, 1.0,	  1.5, 0.0,		// lower right corner
+
+	 	 // top face
+		-0.5,  0.5,   0.5, 	 0.0, 0.0, 0.0,	  0.0, 1.0,		// upper left corner
+		-0.5,  0.5,  -0.5,   1.0, 1.0, 0.0,	  0.0, 0.0, 	// upper right corner
+		 0.5,  0.5,   0.5, 	 0.0, 0.0, 1.0,	  1.5, 1.0,		// upper right corner
+		 0.5,  0.5,   0.5, 	 0.0, 0.0, 1.0,	  1.5, 1.0,		// upper right corner
+		-0.5,  0.5,  -0.5,   1.0, 1.0, 0.0,	  0.0, 0.0, 	// upper right corner
+		 0.5,  0.5,  -0.5, 	 0.0, 1.0, 1.0,	  1.5, 0.0,		// upper left corner
+
 	];
 
 	// textures range:
@@ -205,12 +250,52 @@ function main() {
 	//  V 		V
 	// 0:1 --> 1:1
 
-	// indices show the 3 points that create a triangle.
-	var indices = [
-		0, 1, 2,	// 1st triangle
-		1, 3, 2		// 2nd triangle
-	];
-	
+	// REMOVED
+	{
+		// var vertices = [
+		// //---positions---\   /---colors---\  /--texture--\
+		// // x		y     z	   	 r	  g	   b 	   s    t
+		// // front face
+		// 	-0.5, -0.5,  0.5, 	1.0, 0.0, 0.0,	  0.0, 1.0,		// lower left corner 0
+		// 	 0.5, -0.5,  0.5, 	1.0, 0.0, 1.0,	  1.5, 1.0,		// lower right corner 1
+		// 	-0.5,  0.5,  0.5, 	0.0, 0.0, 0.0,	  0.0, 0.0,		// upper left corner 2
+		// 	 0.5,  0.5,  0.5, 	0.0, 0.0, 1.0,	  1.5, 0.0,		// upper right corner 3
+
+		// // back face
+		//   0.5, -0.5,  -0.5,   1.0, 1.0, 1.0,	   1.5, 1.0,	// lower left corner 4
+		//  -0.5, -0.5,  -0.5, 	 0.0, 1.0, 0.0,	   0.0, 1.0, 	// lower right corner 5
+		// 	 0.5,  0.5,  -0.5, 	 0.0, 1.0, 1.0,	   1.5, 0.0,	// upper left corner 6
+		// 	-0.5,  0.5,  -0.5,   1.0, 1.0, 0.0,	   0.0, 0.0, 	// upper right corner 7
+		// ];
+
+		// indices show the 3 points that create a triangle.
+		// var indices = [
+		// 	// front face
+		// 	0, 2, 1,	// 1st triangle
+		// 	1, 2, 3,	// 2nd triangle
+
+		// 	// back face
+		// 	4, 6, 5,	// 3rd triangle
+		// 	5, 6, 7,	// ...
+
+		// 	// left face
+		// 	5, 7, 0,
+		// 	0, 7, 2,
+
+		// 	// right face
+		// 	1, 3, 4,
+		// 	4, 3, 6,
+
+		// 	// bottom face
+		// 	5, 0, 4,
+		// 	4, 0, 1,
+
+		// 	// top face
+		// 	2, 7, 3, 
+		// 	3, 7, 6
+		// ];
+	}
+
 	// create a buffer, bind it to webgl as our active buffer and put our vertices in the buffer
 	var vertex_buffer = gl.createBuffer();
 	gl.bindBuffer(gl.ARRAY_BUFFER, vertex_buffer);
@@ -244,11 +329,12 @@ function main() {
 	// unbind the buffer to prevent unwanted changes later
 	gl.bindBuffer(gl.ARRAY_BUFFER, null);
 	
+	// REMOVED
 	// now we will do the same for the indices
-	var index_buffer = gl.createBuffer();
-	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, index_buffer);
-	gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW);
-	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
+	// var index_buffer = gl.createBuffer();
+	// gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, index_buffer);
+	// gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW);
+	// gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
 
 
 	/*
@@ -259,8 +345,10 @@ function main() {
 
 	// bind our buffer objects to WebGL
 	gl.bindBuffer(gl.ARRAY_BUFFER, vertex_buffer);
-	//gl.bindBuffer(gl.ARRAY_BUFFER, color_buffer);
-	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, index_buffer);
+
+	// REMOVED
+	// gl.bindBuffer(gl.ARRAY_BUFFER, color_buffer);
+	// gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, index_buffer);
 
 	// tell WebGL to enable the vertex attribute we just specified.
 	gl.enableVertexAttribArray(position_location);
@@ -319,8 +407,11 @@ function main() {
 	// 3rd arg: element array buffer type (the type of our indices array)
 	// 4th arg: offset, specifies at which position (in bytes) in the element array the first element starts. As we have no
 	//			additional information in our element array buffer, this will be 0.
-	gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
+	//gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
 	
+	// NEW 
+	// Only draw planes on the side where the vertices link clockwise
+	gl.enable(gl.CULL_FACE);
 	
 	/*
 	* --------------------------------------------------------------------------------------------
@@ -342,19 +433,28 @@ function main() {
 		// remember the current time for the next frame.
 		previous = now;
 
+		// NEW
+		var sinWave = Math.sin(now);
+
 		// TODO: Create and comment out a few matrix examples - created by: Quincy Jacobs
 
-		var matrix = math3d.identityMatrix();
-		matrix = math3d.multiplyMatrix(matrix, math3d.xRotationMatrix(55));
-		matrix = math3d.multiplyMatrix(matrix, math3d.yRotationMatrix(now*20));
-		matrix = math3d.multiplyMatrix(matrix, math3d.zRotationMatrix(35));
+		// MODIFIED
+		//var matrix = math3d.identityMatrix();
+		matrix = math3d.multiplyMatrix(matrix, math3d.xRotationMatrix(sinWave*5));
+		matrix = math3d.multiplyMatrix(matrix, math3d.yRotationMatrix(sinWave*2));
+		matrix = math3d.multiplyMatrix(matrix, math3d.zRotationMatrix(sinWave*3));
 
 		// Apply our matrix to all positions going through the vertex shader
 		gl.uniformMatrix4fv(transform_location, false, matrix);
 
 
 		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-		gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
+
+		// REMOVED
+		//gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
+
+		// NEW
+		gl.drawArrays(gl.TRIANGLES, 0, 6*6);
 
 		// call drawScene again for the next frame
 		requestAnimationFrame(drawScene);
