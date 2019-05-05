@@ -101,6 +101,19 @@ var math3d = new function()
 			 m1[12]*m2[2] + m1[13]*m2[6] + m1[14]*m2[10] + m1[15]*m2[14],
 			 m1[12]*m2[3] + m1[13]*m2[7] + m1[14]*m2[11] + m1[15]*m2[15]]);
 	}
+
+	// TODO: https://www.songho.ca/opengl/gl_projectionmatrix.html
+	// perspective projection of the 3d vertices onto a 2d screen (fieldOfView in radians)
+	this.perspectiveMatrix = function(fieldOfView, aspectRatio, near, far)
+	{
+		var halfFieldOfView = Math.tan(fieldOfView / 2);
+
+		return new Float32Array(
+			[(1 / (aspectRatio * halfFieldOfView)), 0, 0, 0,
+			 0, (1 / halfFieldOfView), 0, 0,
+			 0, 0, (-(far + near) / (far - near)), -1,
+			 0, 0, -(2 * far * near) / (far - near), 0]);
+	}
 }
 
 main();
@@ -143,11 +156,12 @@ function main() {
 		out lowp vec2 f_texture;
 		
 		uniform mat4 transform;
+		uniform mat4 projection;
 
 		void main() {
 			f_color = v_color;
 			f_texture = v_texture;
-			gl_Position = vec4(v_position, 1.0) * transform;
+			gl_Position = vec4(v_position, 1.0) * transform * projection;
 		}
 	`;
 
@@ -383,6 +397,12 @@ function main() {
 	gl.uniformMatrix4fv(transform_location, false, matrix);
 
 
+	var projection_location = gl.getUniformLocation(shaderProgram, "projection");
+	var projection = math3d.perspectiveMatrix(90, gl.canvas.clientWidth / gl.canvas.clientHeight, 0.1, 10);
+	gl.uniformMatrix4fv(projection_location, false, projection);
+
+
+
 	/*
 	* --------------------------------------------------------------------------------------------
 	* Draw the shapes
@@ -440,9 +460,12 @@ function main() {
 
 		// MODIFIED
 		//var matrix = math3d.identityMatrix();
-		matrix = math3d.multiplyMatrix(matrix, math3d.xRotationMatrix(sinWave*5));
-		matrix = math3d.multiplyMatrix(matrix, math3d.yRotationMatrix(sinWave*2));
-		matrix = math3d.multiplyMatrix(matrix, math3d.zRotationMatrix(sinWave*3));
+		//matrix = math3d.multiplyMatrix(matrix, math3d.xRotationMatrix(sinWave*5));
+		//matrix = math3d.multiplyMatrix(matrix, math3d.yRotationMatrix(sinWave*2));
+		//matrix = math3d.multiplyMatrix(matrix, math3d.zRotationMatrix(sinWave*3));
+		var vectorMatrix = [-0.5,0,0,0,0,-0.5,0,0,0,0,-0.5,0,0,0,0,1]
+
+		console.log(math3d.multiplyMatrix(math3d.multiplyMatrix(projection,matrix),vectorMatrix));
 
 		// Apply our matrix to all positions going through the vertex shader
 		gl.uniformMatrix4fv(transform_location, false, matrix);
